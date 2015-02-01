@@ -1162,8 +1162,8 @@ public abstract class StandOutWindow extends Service {
 		final Window window = getWindow(id);
 
 		if (window == null) {
-			throw new IllegalArgumentException("Tried to hide(" + id
-					+ ") a null window.");
+			Log.e(TAG, "Tried to hide(" + id + ") a null window.");
+			return;
 		}
 
 		// alert callbacks and cancel if instructed
@@ -1241,8 +1241,8 @@ public abstract class StandOutWindow extends Service {
 		final Window window = getWindow(id);
 
 		if (window == null) {
-			throw new IllegalArgumentException("Tried to close(" + id
-					+ ") a null window.");
+			Log.e(TAG, "Tried to close(" + id + ") a null window.");
+			return;
 		}
 
 		if (window.visibility == Window.VISIBILITY_TRANSITION) {
@@ -1379,13 +1379,13 @@ public abstract class StandOutWindow extends Service {
 	public final synchronized void bringToFront(int id) {
 		Window window = getWindow(id);
 		if (window == null) {
-			throw new IllegalArgumentException("Tried to bringToFront(" + id
-					+ ") a null window.");
+			Log.e(TAG, "Tried to bringToFront(" + id + ") a null window.");
+			return;
 		}
 
 		if (window.visibility == Window.VISIBILITY_GONE) {
-			throw new IllegalStateException("Tried to bringToFront(" + id
-					+ ") a window that is not shown.");
+			Log.e(TAG, "Tried to bringToFront(" + id + ") a window that is not shown.");
+			return;
 		}
 
 		if (window.visibility == Window.VISIBILITY_TRANSITION) {
@@ -1427,8 +1427,8 @@ public abstract class StandOutWindow extends Service {
 		// check if that window is focusable
 		final Window window = getWindow(id);
 		if (window == null) {
-			throw new IllegalArgumentException("Tried to focus(" + id
-					+ ") a null window.");
+			Log.e(TAG, "Tried to focus(" + id + ") a null window.");
+			return false;
 		}
 
 		if (!Utils.isSet(window.flags,
@@ -1717,8 +1717,8 @@ public abstract class StandOutWindow extends Service {
 	 */
 	public synchronized boolean unfocus(Window window) {
 		if (window == null) {
-			throw new IllegalArgumentException(
-					"Tried to unfocus a null window.");
+			Log.e(TAG, "Tried to unfocus a null window.");
+			return false;
 		}
 		return window.onFocus(false);
 	}
@@ -1735,8 +1735,8 @@ public abstract class StandOutWindow extends Service {
 		Window window = getWindow(id);
 
 		if (window == null) {
-			throw new IllegalArgumentException("Tried to updateViewLayout("
-					+ id + ") a null window.");
+			Log.e(TAG, "Tried to updateViewLayout(" + id + ") a null window.");
+			return;
 		}
 
 		if (window.visibility == Window.VISIBILITY_GONE) {
