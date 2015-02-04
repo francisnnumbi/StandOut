@@ -9,7 +9,12 @@ buildscript {
 }
 
 allprojects {
+    version = VERSION_NAME
+    group = GROUP
+
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
+
+apply plugin: 'android-reporting'
