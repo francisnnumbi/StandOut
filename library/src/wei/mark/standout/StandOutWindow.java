@@ -1175,6 +1175,7 @@ public abstract class StandOutWindow extends Service {
 		// ignore if window is already hidden
 		if (window.visibility == Window.VISIBILITY_GONE) {
 			Log.d(TAG, "Window " + id + " is already hidden.");
+			return;
 		}
 
 		// check if hide enabled
