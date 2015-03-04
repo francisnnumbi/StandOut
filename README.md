@@ -8,7 +8,7 @@ Author of the fork: Gianluigi Tiesi
 Add following dependency to your `build.gradle`
 
     dependencies {
-        compile 'com.github.sherpya:standout:1.0.1'
+        compile 'com.github.sherpya:standout:1.0.2'
     }
 
 ### Coming Soon
