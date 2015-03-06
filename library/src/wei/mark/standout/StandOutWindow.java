@@ -1252,6 +1252,8 @@ public abstract class StandOutWindow extends Service {
 			return;
 		}
 
+		final boolean isVisible = window.visibility == Window.VISIBILITY_VISIBLE;
+
 		// alert callbacks and cancel if instructed
 		if (onClose(id, window)) {
 			Log.w(TAG, "Window " + id + " close cancelled by implementation.");
@@ -1263,15 +1265,14 @@ public abstract class StandOutWindow extends Service {
 
 		unfocus(window);
 
-		window.visibility = Window.VISIBILITY_TRANSITION;
-
 		// get animation
 		Animation animation = getCloseAnimation(id);
 
 		// remove window
 		try {
 			// animate
-			if (animation != null) {
+			if (isVisible && (animation != null)) {
+				window.visibility = Window.VISIBILITY_TRANSITION;
 				animation.setAnimationListener(new AnimationListener() {
 
 					@Override
@@ -1306,7 +1307,8 @@ public abstract class StandOutWindow extends Service {
 				window.getChildAt(0).startAnimation(animation);
 			} else {
 				// remove the window from the window manager
-				mWindowManager.removeView(window);
+				if (isVisible)
+					mWindowManager.removeView(window);
 
 				// remove view from internal map
 				sWindowCache.removeCache(id, getClass());
