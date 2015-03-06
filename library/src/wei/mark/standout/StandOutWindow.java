@@ -1180,8 +1180,6 @@ public abstract class StandOutWindow extends Service {
 
 		// check if hide enabled
 		if (Utils.isSet(window.flags, StandOutFlags.FLAG_WINDOW_HIDE_ENABLE)) {
-			window.visibility = Window.VISIBILITY_TRANSITION;
-
 			// get the hidden notification for this view
 			Notification notification = getHiddenNotification(id);
 
@@ -1195,6 +1193,7 @@ public abstract class StandOutWindow extends Service {
 
 						@Override
 						public void onAnimationStart(Animation animation) {
+							window.visibility = Window.VISIBILITY_TRANSITION;
 						}
 
 						@Override
@@ -1204,14 +1203,14 @@ public abstract class StandOutWindow extends Service {
 						@Override
 						public void onAnimationEnd(Animation animation) {
 							// remove the window from the window manager
-							mWindowManager.removeView(window);
+							removeView(window);
 							window.visibility = Window.VISIBILITY_GONE;
 						}
 					});
 					window.getChildAt(0).startAnimation(animation);
 				} else {
 					// remove the window from the window manager
-					mWindowManager.removeView(window);
+					removeView(window);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -1248,8 +1247,12 @@ public abstract class StandOutWindow extends Service {
 			return;
 		}
 
+		// if hiding animation is in progress, then cancel hide animation
 		if (window.visibility == Window.VISIBILITY_TRANSITION) {
-			return;
+			final Animation animation = window.getChildAt(0).getAnimation();
+			animation.setAnimationListener(null);
+			animation.cancel();
+			window.visibility = Window.VISIBILITY_VISIBLE;
 		}
 
 		final boolean isVisible = window.visibility == Window.VISIBILITY_VISIBLE;
@@ -1272,11 +1275,11 @@ public abstract class StandOutWindow extends Service {
 		try {
 			// animate
 			if (isVisible && (animation != null)) {
-				window.visibility = Window.VISIBILITY_TRANSITION;
 				animation.setAnimationListener(new AnimationListener() {
 
 					@Override
 					public void onAnimationStart(Animation animation) {
+						window.visibility = Window.VISIBILITY_TRANSITION;
 					}
 
 					@Override
@@ -1286,7 +1289,7 @@ public abstract class StandOutWindow extends Service {
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						// remove the window from the window manager
-						mWindowManager.removeView(window);
+						removeView(window);
 						window.visibility = Window.VISIBILITY_GONE;
 
 						// remove view from internal map
@@ -1308,7 +1311,7 @@ public abstract class StandOutWindow extends Service {
 			} else {
 				// remove the window from the window manager
 				if (isVisible)
-					mWindowManager.removeView(window);
+					removeView(window);
 
 				// remove view from internal map
 				sWindowCache.removeCache(id, getClass());
@@ -1528,6 +1531,17 @@ public abstract class StandOutWindow extends Service {
 	 */
 	public final void setFocusedWindow(Window window) {
 		sFocusedWindow = window;
+	}
+
+	/**
+	 * Remove the window from the window manager
+	 */
+	public final void removeView(Window window) {
+		try {
+			mWindowManager.removeView(window);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	/**
