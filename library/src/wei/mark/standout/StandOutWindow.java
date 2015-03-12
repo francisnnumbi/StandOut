@@ -1250,9 +1250,12 @@ public abstract class StandOutWindow extends Service {
 		// if hiding animation is in progress, then cancel hide animation
 		if (window.visibility == Window.VISIBILITY_TRANSITION) {
 			final Animation animation = window.getChildAt(0).getAnimation();
-			animation.setAnimationListener(null);
-			animation.cancel();
-			window.visibility = Window.VISIBILITY_VISIBLE;
+			if (animation != null) {
+				animation.setAnimationListener(null);
+				animation.cancel();
+				window.visibility = Window.VISIBILITY_VISIBLE;
+			} else
+				window.visibility = Window.VISIBILITY_GONE;
 		}
 
 		final boolean isVisible = window.visibility == Window.VISIBILITY_VISIBLE;
