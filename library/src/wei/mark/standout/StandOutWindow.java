@@ -1216,15 +1216,15 @@ public abstract class StandOutWindow extends Service {
 				ex.printStackTrace();
 			}
 
-            if (notification != null) {
-                // display the notification
-                notification.flags = notification.flags
-                        | Notification.FLAG_NO_CLEAR
-                        | Notification.FLAG_AUTO_CANCEL;
+			if (notification != null) {
+				// display the notification
+				notification.flags = notification.flags
+								| Notification.FLAG_NO_CLEAR
+								| Notification.FLAG_AUTO_CANCEL;
 
-                mNotificationManager.notify(getClass().hashCode() + id,
-                        notification);
-            }
+				mNotificationManager.notify(getClass().hashCode() + id,
+								notification);
+			}
 
 		} else {
 			// if hide not enabled, close window
