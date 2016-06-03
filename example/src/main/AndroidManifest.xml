@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="wei.mark.floatingfolders"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="wei.mark.example">
 
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16"/>
-
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="FloatingFoldersLauncher"
+            android:name=".StandOutExampleActivity"
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoDisplay" >
@@ -23,7 +19,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name="FloatingFolder" >
+        <service android:name=".MultiWindow" >
+        </service>
+        <service android:name=".SimpleWindow" >
+        </service>
+        <service android:name=".MostBasicWindow" >
+        </service>
+        <service android:name="WidgetsWindow" >
         </service>
     </application>
 
